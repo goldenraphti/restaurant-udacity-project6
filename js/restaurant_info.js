@@ -22,7 +22,7 @@ initMap = () => {
         scrollWheelZoom: false
       });
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-        mapboxToken: '<your MAPBOX API KEY HERE>',
+        mapboxToken: 'pk.eyJ1IjoiZ29sZGVucmFwaHRpIiwiYSI6ImNqZDVzaGQ3dzFsYnAycW9xN25oa2VodmgifQ.AO002okeRrHyFgAhph-VMA',
         maxZoom: 18,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
           '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -80,25 +80,49 @@ fetchRestaurantFromURL = (callback) => {
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
-  const name = document.getElementById('restaurant-name');
-  name.innerHTML = restaurant.name;
+    console.log(self.restaurant);
+    const name = document.getElementById('restaurant-name');
+    name.innerHTML = restaurant.name;
 
-  const address = document.getElementById('restaurant-address');
-  address.innerHTML = restaurant.address;
+    const address = document.getElementById('restaurant-address');
+    address.innerHTML = restaurant.address;
 
-  const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+    const image = document.getElementById('restaurant-img');
+    image.className = 'restaurant-img'
+    image.src = DBHelper.imageUrlForRestaurant(restaurant);
+   
+//   Creation of a cuisine type label, with icons and color depending of the cuisine type
+    const cuisineTypeLabel = document.createElement('div');
+    cuisineTypeLabel.setAttribute('id','cuisineTypeLabel');
+    const restaurantContainer = document.getElementById('restaurant-container');
+    var sp2 = document.getElementById('restaurant-address');
+    restaurantContainer.insertBefore(cuisineTypeLabel, sp2);
+    
+//    Creation of the icon to insert in the label. The icon depends of the type of cuisine
+    const iconCuisine = document.createElement('img');
+    iconCuisine.setAttribute('id','iconCuisine');
+    if(restaurant.cuisine_type === 'Asian') {
+        iconCuisine.setAttribute('src','../img/icons/asian-food.svg');
+    } else if(restaurant.cuisine_type === 'American') {
+        iconCuisine.setAttribute('src','../img/icons/bbq.svg');
+    } else if(restaurant.cuisine_type === 'Pizza') {
+        iconCuisine.setAttribute('src','../img/icons/pizza.svg');
+    } else if(restaurant.cuisine_type === 'Mexican') {
+        iconCuisine.setAttribute('src','../img/icons/mexican-tacos.svg');
+    } 
+    
+    cuisineTypeLabel.appendChild(iconCuisine);
 
-  const cuisine = document.getElementById('restaurant-cuisine');
-  cuisine.innerHTML = restaurant.cuisine_type;
+    const cuisine = document.getElementById('restaurant-cuisine');
+    cuisine.innerHTML = restaurant.cuisine_type;
+    cuisineTypeLabel.appendChild(cuisine);
 
-  // fill operating hours
-  if (restaurant.operating_hours) {
+    // fill operating hours
+    if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
-  }
-  // fill reviews
-  fillReviewsHTML();
+    }
+    // fill reviews
+    fillReviewsHTML();
 }
 
 /**
@@ -147,24 +171,38 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  * Create review HTML and add it to the webpage.
  */
 createReviewHTML = (review) => {
-  const li = document.createElement('li');
-  const name = document.createElement('p');
-  name.innerHTML = review.name;
-  li.appendChild(name);
+    const li = document.createElement('li');
+    const reviewHeader = document.createElement('div');
+    reviewHeader.setAttribute('id','reviewHeader');
+    li.appendChild(reviewHeader);
 
-  const date = document.createElement('p');
-  date.innerHTML = review.date;
-  li.appendChild(date);
+    const name = document.createElement('p');
+    name.setAttribute('id','name');
+    name.innerHTML = review.name;
+    reviewHeader.appendChild(name);
 
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
+    const date = document.createElement('p');
+    date.innerHTML = review.date;
+    reviewHeader.appendChild(date);
 
-  const comments = document.createElement('p');
-  comments.innerHTML = review.comments;
-  li.appendChild(comments);
 
-  return li;
+    const reviewBody = document.createElement('div');
+    reviewBody.setAttribute('id','reviewBody');
+    li.appendChild(reviewBody);
+
+    const reviewRating = document.createElement('div');
+    reviewRating.setAttribute('id','reviewRating');
+    reviewBody.appendChild(reviewRating);
+    const rating = document.createElement('p');
+    rating.setAttribute('class','reviewRating');
+    rating.innerHTML = `Rating: ${review.rating}`;
+    reviewRating.appendChild(rating);
+
+    const comments = document.createElement('p');
+    comments.innerHTML = review.comments;
+    reviewBody.appendChild(comments);
+
+    return li;
 }
 
 /**
