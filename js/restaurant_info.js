@@ -87,9 +87,18 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     const address = document.getElementById('restaurant-address');
     address.innerHTML = restaurant.address;
 
+    
+    // Creation of the image, responsive and alt attribute
     const image = document.getElementById('restaurant-img');
-    image.className = 'restaurant-img'
+    image.className = 'restaurant-img';
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
+    image.setAttribute('alt',`photo of restaurant ${restaurant.name}, ${restaurant.cuisine_type} food`);
+    
+//    const image = `<picture>
+//                    <source
+//                        srcset="https://picsum.photos/500/333?image=1060 1x , https://picsum.photos/1000/666?image=1060 2x">
+//                    <img src="https://picsum.photos/250/166?image=1060" alt="Illustration of CoffeeTimer App">
+//                </picture>`;
    
 //   Creation of a cuisine type label, with icons and color depending of the cuisine type
     const cuisineTypeLabel = document.createElement('div');
@@ -101,6 +110,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 //    Creation of the icon to insert in the label. The icon depends of the type of cuisine
     const iconCuisine = document.createElement('img');
     iconCuisine.setAttribute('id','iconCuisine');
+    iconCuisine.setAttribute('alt','');
     if(restaurant.cuisine_type === 'Asian') {
         iconCuisine.setAttribute('src','../img/icons/asian-food.svg');
     } else if(restaurant.cuisine_type === 'American') {
@@ -173,11 +183,11 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 createReviewHTML = (review) => {
     const li = document.createElement('li');
     const reviewHeader = document.createElement('div');
-    reviewHeader.setAttribute('id','reviewHeader');
+    reviewHeader.setAttribute('class','reviewHeader');
     li.appendChild(reviewHeader);
 
     const name = document.createElement('p');
-    name.setAttribute('id','name');
+    name.setAttribute('class','name');
     name.innerHTML = review.name;
     reviewHeader.appendChild(name);
 
@@ -187,14 +197,13 @@ createReviewHTML = (review) => {
 
 
     const reviewBody = document.createElement('div');
-    reviewBody.setAttribute('id','reviewBody');
+    reviewBody.setAttribute('class','reviewBody');
     li.appendChild(reviewBody);
 
     const reviewRating = document.createElement('div');
-    reviewRating.setAttribute('id','reviewRating');
+    reviewRating.setAttribute('class','reviewRating');
     reviewBody.appendChild(reviewRating);
     const rating = document.createElement('p');
-    rating.setAttribute('class','reviewRating');
     rating.innerHTML = `Rating: ${review.rating}`;
     reviewRating.appendChild(rating);
 

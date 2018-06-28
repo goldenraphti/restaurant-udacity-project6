@@ -25,7 +25,8 @@ html {
     --medium-grey: #585858;
     --dark-grey: #292929;
     --restaurant-blue: #3397db;
-    --restaurant-orange: orange;
+    --restaurant-orange: #ffa500;
+    --restaurant-orange-dark: #be7b00;
     
     --radius-restaurant: 30px;
 }
@@ -57,7 +58,7 @@ a:hover, a:focus {
 	text-decoration: none;
 }
 a img{
-	border: none 0px #fff;
+	border: none 0 #fff;
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: Arial, Helvetica, sans-serif;
@@ -85,7 +86,9 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #footer > a {
     margin: 0 1em;
 }
-
+.hidden {
+    display: none;
+}
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
@@ -209,7 +212,7 @@ nav h1 a {
 /*  min-height: 248px;*/
   min-width: 100%;
 }
-#restaurants-list li h1 {
+#restaurants-list li h3 {
   color: #f18200;
   font-family: Arial,sans-serif;
   font-size: 14pt;
@@ -224,7 +227,7 @@ nav h1 a {
   font-size: 11pt;
 }
 #restaurants-list li a {
-  background-color: orange;
+  background-color: var(--restaurant-orange);
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
@@ -235,7 +238,13 @@ nav h1 a {
   text-decoration: none;
   text-transform: uppercase;
 }
-
+#restaurants-list li a:hover,
+#restaurants-list li a:focus {
+  background-color: var(--restaurant-orange-dark);
+}
+#restaurants-list li .aria-label-details {
+    display: none;
+}
 /* ====================== Restaurant Details ====================== */
 .inside header {
   top: 0;
@@ -324,6 +333,7 @@ nav h1 a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0;
 }
 #reviews-list li {
     background-color: rgba(255, 255, 255, 0);
@@ -332,8 +342,11 @@ nav h1 a {
     margin: 0 0 30px;
     position: relative;
     width: 85%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
-#reviewHeader {
+.reviewHeader {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -342,7 +355,7 @@ nav h1 a {
     border-radius: var(--radius-restaurant) 0 0 0 ;
     width: 85%;
 }
-#reviewHeader p {
+.reviewHeader p {
     color: var(--light-medium-grey);
     text-shadow: 1px 1px 1px #000;
     padding: 0;
@@ -350,13 +363,13 @@ nav h1 a {
     margin-left: 0px;
     margin-right: 10px;
 }
-#reviewHeader #name{
+.reviewHeader .name{
     font-size: 1.6em;
     color: #fff;
     margin-left: 10px;
     margin-right: 0px;
 }
-#reviewBody {
+.reviewBody {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -371,11 +384,11 @@ nav h1 a {
   margin: 0 0 10px;
 }
 */
-#ratingDiv {
+.ratingDiv {
     width: 100%;
     padding: 0;
 }
-#reviewRating {
+.reviewRating {
     background: var(--restaurant-orange);
     padding: 0 5px;
     height: 1.7em;
@@ -387,7 +400,7 @@ nav h1 a {
     border: 0.2em solid var(--restaurant-orange);
     border-radius: 0.3em;
 }
-#reviewRating p {
+.reviewRating p {
     text-transform: uppercase;
     color: #fff;
     font-weight: bold;
