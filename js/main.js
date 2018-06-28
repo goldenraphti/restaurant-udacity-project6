@@ -88,18 +88,6 @@ initMap = () => {
 
     updateRestaurants();
 };
-/* window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  updateRestaurants();
-} */
 
 /**
  * Update page and map for current restaurants.
@@ -175,16 +163,20 @@ createRestaurantHTML = (restaurant) => {
     const address = document.createElement('p');
     address.innerHTML = restaurant.address;
     li.append(address);
+    
+    // "compressed" name of the restaurant
+    const nameCompressedArray = restaurant.name.split(' ');
+    const nameCompressed = nameCompressedArray.join('');
 
     const more = document.createElement('a');
     more.innerHTML = 'View Details';
-//    more.setAttribute('aria-labelledby', `aria-label-details-${restaurant.name.replace(' ','')}`);
+    more.setAttribute('aria-labelledby', `aria-label-details-${nameCompressed}`);
     more.href = DBHelper.urlForRestaurant(restaurant);
     li.append(more);
 
     // add the a11y part for Details link, individualized for each restaurant
-//    const moreAria = `<span id="aria-label-details-${restaurant.name.replace(' ','')}" class="hidden">View details about Restaurant ${restaurant.name}</span>`;
-//    li.insertAdjacentHTML('beforeend', moreAria);
+    const moreAria = `<span id="aria-label-details-${nameCompressed}" class="hidden">View details about Restaurant ${nameCompressed}</span>`;
+    li.insertAdjacentHTML('beforeend', moreAria);
 
     return li;
 };
@@ -204,14 +196,17 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
 
 } 
-/* addMarkersToMap = (restaurants = self.restaurants) => {
-  restaurants.forEach(restaurant => {
-    // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-    google.maps.event.addListener(marker, 'click', () => {
-      window.location.href = marker.url
-    });
-    self.markers.push(marker);
-  });
-} */
 
+/* Registration of the servic workers */
+
+if ('serviceWorker' in navigator) {
+//    console.log('service worker !');
+    navigator.serviceWorker.register('/sw.js')
+    .then(function(reg) {
+    // registration worked
+    console.log('Registration succeeded. Scope is ' + reg.scope);
+    }).catch(function(error) {
+    // registration failed
+    console.log('Registration failed with ' + error);
+    });
+}
