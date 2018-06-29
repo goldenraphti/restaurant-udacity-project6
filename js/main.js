@@ -189,6 +189,16 @@ addMarkersToMap = (restaurants = self.restaurants) => {
         // Add marker to the map
         const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
         marker.on("click", onClick);
+        
+        /* makes the marker link usable by keyboard only users */
+//        marker.addEventListener('keydown', (e) => {
+//            console.log('a key is pressed');
+//            console.log(`key down is : ${e.key}`);
+//            if(e.key === 'Enter') {
+//                onclick();
+//            }
+//        });
+        
         function onClick() {
             window.location.href = marker.options.url;
         }
